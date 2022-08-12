@@ -1,24 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from 'react-router-dom'
+import ListProvinsi from './page/ListProvinsi';
+import ListOngkir from './page/ListOngkir';
+import Navbar from './components/Navbar';
+import { useEffect } from 'react';
+import Login from './page/Login';
+import { AuthProvider } from './components/auth';
+import RequireAuth from './components/RequireAuth';
 
 function App() {
+  useEffect(() => {
+    document.title = 'App Raja Ongkir'
+  },[]
+  )
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <div className='container'>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<ListProvinsi/>} />
+          <Route path='/ongkir' element={<RequireAuth><ListOngkir /></RequireAuth>} />
+          <Route path='/login' element={<Login />} />
+        </Routes>
+      </div>
+    </AuthProvider>
   );
 }
 
